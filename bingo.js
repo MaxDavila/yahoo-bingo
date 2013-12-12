@@ -8,3 +8,7 @@ var RegInfo = {
 };
 
 client.emit('register', RegInfo);
+
+client.on('connect', function(){
+  console.log("connected to Yahoo bingo server!");
+});
