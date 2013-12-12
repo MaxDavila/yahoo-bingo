@@ -36,17 +36,35 @@ Bingo.prototype = {
   },
 
   checkRow : function() {
+    var row = [];
+    for (var key in this.slots) {
+      row.push(this.slots[key][0]);
+    }
+    return this.checkIfItHasAllZeros(row);
 
   },
 
   checkColumn : function() {
     for (var key in this.slots) {
       var column = this.slots[key];
-      console.log(column);
+      if (this.checkIfItHasAllZeros(column)) {
+        return true;
+      } else {
+        continue;
+      }
     }
   },
 
   checkDiagonal : function() {
+
+
+  },
+
+  checkIfItHasAllZeros : function(array) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] !== 0) return false;
+        if ((i == array.length - 1) && (array[i] === 0)) return true;
+    }
 
   }
 
@@ -72,10 +90,12 @@ client.on('disconnect', function(){
 
 client.on('card', function(payload){
   card = new Bingo(payload.slots);
+  console.log(card);
 });
 
 client.on('number', function(number){
   card.check(number);
+  console.log(number)
 });
 
 client.on('win', function(message){
