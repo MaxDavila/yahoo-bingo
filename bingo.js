@@ -12,12 +12,9 @@ Bingo.prototype = {
     var set = this.parseSet(bingoSet);
     var index = this.checkIfExists(set);
     
-    if (index) {
+    if (index !== -1) {
       this.slots[set[0]][index] = 0;
-    }
-
-    if (this.validBingo()){
-      client.emit('bingo');
+      if (this.validBingo()) client.emit('bingo');
     }
   },
   
@@ -32,13 +29,23 @@ Bingo.prototype = {
   },
 
   validBingo : function() {
-    this.checkRow() || this.checkColumn() || this.checkDiagonal();
+    return (this.checkRow() || this.checkColumn() || this.checkDiagonal());
   },
 
   checkRow : function() {
-    var row = [];
+    var row = [],
+        counter = 0;
     for (var key in this.slots) {
-      row.push(this.slots[key][0]);
+      for (var i = 0; i < this.slots.length; i++){
+        row.push(this.slots[key][counter]);
+      }
+      counter++;
+
+      if (this.checkIfItHasAllZeros(row)) {
+        return true;
+      } else {
+        continue;
+      }
     }
     return this.checkIfItHasAllZeros(row);
 
@@ -56,8 +63,13 @@ Bingo.prototype = {
   },
 
   checkDiagonal : function() {
-
-
+    var diagonal = [],
+        index = 0;
+    for (var key in this.slots) {
+      diagonal.push(this.slots[key][index]);
+      index++;
+    }
+    return this.checkIfItHasAllZeros(diagonal);
   },
 
   checkIfItHasAllZeros : function(array) {
@@ -95,7 +107,7 @@ client.on('card', function(payload){
 
 client.on('number', function(number){
   card.check(number);
-  console.log(number)
+  console.log(card.slots);
 });
 
 client.on('win', function(message){
