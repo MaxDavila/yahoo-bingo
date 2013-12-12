@@ -6,3 +6,5 @@ var RegInfo = {
   email: 'adavila0711@gmail.com',
   url: 'https://github.com/MaxDavila/yahoo-bingo'
 };
+
+client.emit('register', RegInfo);
