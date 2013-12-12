@@ -7,9 +7,28 @@ function Bingo(slots){
 }
 
 Bingo.prototype = {
-  check : function(number){
-    console.log('im check' + number);
+  check : function(bingoSet){
+    var set = this.parseSet(bingoSet);
+       
+    this.checkIfExists(set);
+  },
+  
+  parseSet : function(bingoSet){
+    var letter = bingoSet.match(/[A-Z]/).toString();
+    var num = parseInt(bingoSet.match(/\d+/));
+    return [letter, num];
+  },
+
+  checkIfExists : function(set) {
+    var letter = set.shift(),
+        number = set.shift();
+    console.log(letter);
+    console.log(number)
+    this.slots[letter].indexOf(number);
   }
+
+
+
 };
 
 var RegInfo = {
