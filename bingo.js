@@ -7,10 +7,18 @@ function Bingo(slots){
 }
 
 Bingo.prototype = {
+
   check : function(bingoSet){
     var set = this.parseSet(bingoSet);
-       
-    this.checkIfExists(set);
+    var index = this.checkIfExists(set);
+    
+    if (index) {
+      this.slots[set[0]][index] = 0;
+    }
+
+    if (this.validBingo()){
+      client.emit('bingo');
+    }
   },
   
   parseSet : function(bingoSet){
@@ -20,11 +28,26 @@ Bingo.prototype = {
   },
 
   checkIfExists : function(set) {
-    var letter = set.shift(),
-        number = set.shift();
-    console.log(letter);
-    console.log(number)
-    this.slots[letter].indexOf(number);
+    return this.slots[set[0]].indexOf(set[1]);
+  },
+
+  validBingo : function() {
+    this.checkRow() || this.checkColumn() || this.checkDiagonal();
+  },
+
+  checkRow : function() {
+
+  },
+
+  checkColumn : function() {
+    for (var key in this.slots) {
+      var column = this.slots[key];
+      console.log(column);
+    }
+  },
+
+  checkDiagonal : function() {
+
   }
 
 
@@ -52,7 +75,6 @@ client.on('card', function(payload){
 });
 
 client.on('number', function(number){
-  console.log(number);
   card.check(number);
 });
 
