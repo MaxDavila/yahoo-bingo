@@ -22,7 +22,7 @@ client.on('disconnect', function(){
 
 client.on('card', function(payload){
   BingoCard = payload.slots;
-  console.log(BingoCard.slots);
+  console.log(BingoCard);
 });
 
 client.on('number', function(number){
