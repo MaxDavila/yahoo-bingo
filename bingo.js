@@ -1,14 +1,22 @@
 var socketClient = require('socket.io-client');
 var client = socketClient.connect('ws://yahoobingo.herokuapp.com');
+var card;
 
-var BingoCard;
+function Bingo(slots){
+  this.slots = slots;
+}
+
+Bingo.prototype = {
+  check : function(number){
+    console.log('im check' + number);
+  }
+};
 
 var RegInfo = {
   name: 'Max Davila',
   email: 'adavila0711@gmail.com',
   url: 'https://github.com/MaxDavila/yahoo-bingo'
 };
-
 
 client.emit('register', RegInfo);
 
@@ -21,12 +29,12 @@ client.on('disconnect', function(){
 });
 
 client.on('card', function(payload){
-  BingoCard = payload.slots;
-  console.log(BingoCard);
+  card = new Bingo(payload.slots);
 });
 
 client.on('number', function(number){
   console.log(number);
+  card.check(number);
 });
 
 client.on('win', function(message){
