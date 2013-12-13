@@ -31,7 +31,7 @@ Bingo.prototype = {
   validBingo : function() {
     return (this.checkRow() || this.checkColumn() || this.checkDiagonal());
   },
-
+  // need to clean up!
   checkRow : function() {
     var row = [],
         counter = 0;
@@ -43,8 +43,6 @@ Bingo.prototype = {
 
       if (this.checkIfItHasAllZeros(row)) {
         return true;
-      } else {
-        continue;
       }
     }
     return this.checkIfItHasAllZeros(row);
@@ -56,8 +54,6 @@ Bingo.prototype = {
       var column = this.slots[key];
       if (this.checkIfItHasAllZeros(column)) {
         return true;
-      } else {
-        continue;
       }
     }
   },
